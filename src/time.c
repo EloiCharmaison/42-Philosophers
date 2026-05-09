@@ -1,0 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   time.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eloi <eloi@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/09 16:13:27 by eloi              #+#    #+#             */
+/*   Updated: 2026/05/09 16:17:39 by eloi             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../philo.h"
+
+long	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) - (tv.tv_usec / 1000));
+}
+
+void	ft_usleep(long time)
+{
+	long	start;
+
+	start = get_time();
+	while ((get_time() - start) < time)
+	usleep(500);
+}

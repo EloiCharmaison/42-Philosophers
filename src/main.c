@@ -3,20 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eloi <eloi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:13:03 by echarmai          #+#    #+#             */
-/*   Updated: 2026/04/16 12:20:15 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/05/09 16:52:45 by eloi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
+static int	start_threads(t_data *data)
+{
+	int	i;
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		data->philos[i].last_meal = get_time();
+		if (pthread_create(&data->philos[i].thread, NULL,
+			philo_routine, &data->philos[i]) != 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static void	join_threads(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_join(data->philos[i].thread, NULL);
+	}
+}
+
 int	main(int argc, char **argv)
 {
-	if (argc != 6)
+	t_data data;
+
+	if (argc != 5 && argc != 6)
 	{
-		printf("Wrong number of argument\n");
+		printf("Usage: ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 		return (0);
 	}
+	if (init_data(&data, argc, argv))
+		return (0);
+	if (!init_philos(&data))
+		return(free_all(&data), 0);
+	data.start_time = get_time();
+	if (!start_threads(&data))
+		return (free_all(&data), 0);
+	check_death(&data);
+	join_threads(&data);
+	free_all(&data);
+	return (1);
 }

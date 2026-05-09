@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eloi <eloi@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:00:18 by echarmai          #+#    #+#             */
-/*   Updated: 2026/04/16 12:12:26 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/05/09 16:53:18 by eloi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,14 @@ typedef struct s_data
 	pthread_mutex_t	dead_lock;
 	t_philo			*philos;
 }	t_data;
+
+int		ft_atoi(const char *nptr);
+int		check_death(t_data * data);
+int		init_philos(t_data *data);
+int		init_data(t_data *data, int size, char **tab);
+void	free_all(t_data * data);
+long	get_time(void);
+void	ft_usleep(long time);
+int		main(int argc, char **argv);
 
 #endif
