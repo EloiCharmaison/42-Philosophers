@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eloi <eloi@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:00:18 by echarmai          #+#    #+#             */
-/*   Updated: 2026/05/09 16:53:18 by eloi             ###   ########.fr       */
+/*   Updated: 2026/05/11 15:21:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,9 @@ void	free_all(t_data * data);
 long	get_time(void);
 void	ft_usleep(long time);
 int		main(int argc, char **argv);
+void	eat(t_philo *philo);
+void	sleep_and_think(t_philo *philo);
+void	free_all(t_data * data);
+void	*philo_routine(void *arg);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eloi <eloi@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 15:12:21 by eloi              #+#    #+#             */
-/*   Updated: 2026/05/09 16:46:18 by eloi             ###   ########.fr       */
+/*   Updated: 2026/05/11 15:57:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	init_mutexes(t_data *data)
 	{
 		if (pthread_mutex_init(&data->fork[i], NULL) != 0)
 			return (0);
-			i++;
+		i++;
 	}
 	pthread_mutex_init(&data->print, NULL);
 	pthread_mutex_init(&data->dead_lock, NULL);
@@ -37,14 +37,16 @@ int	init_data(t_data *data, int size, char **tab)
 	data->time_to_die = ft_atoi(tab[2]);
 	data->time_to_eat = ft_atoi(tab[3]);
 	data->time_to_sleep = ft_atoi(tab[4]);
-	data->must_eat = ft_atoi(tab[-1]);
-	if (tab == 6)
+	data->must_eat = -1;
+	if (size == 6)
 		data->must_eat = ft_atoi(tab[5]);
 	data->dead = 0;
 	data->philos = NULL;
 	data->fork = NULL;
-	if (data->nb_philo <= 0 || data->time_to_die <= 0
-		|| data->time_to_eat || data->time_to_sleep)
+	if (data->nb_philo <= 0 
+		|| data->time_to_die <= 0
+		|| data->time_to_eat <= 0 
+		|| data->time_to_sleep <= 0)
 		return (0);
 	if (!init_mutexes(data))
 		return (0);

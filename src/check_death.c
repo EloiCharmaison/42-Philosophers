@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_death.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eloi <eloi@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:48:35 by eloi              #+#    #+#             */
-/*   Updated: 2026/05/09 16:51:46 by eloi             ###   ########.fr       */
+/*   Updated: 2026/05/11 15:26:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ static int	is_dead(t_philo * philo)
 		philo->data->dead = 1;
 		pthread_mutex_unlock(&philo->data->dead_lock);
 		pthread_mutex_lock(&philo->data->print);
-		print("%ld %d died\n");
-			get_time() - philo->data->start_time;
-			philo->id;
+		printf("%ld %d died\n", get_time() - philo->data->start_time, philo->id);
 		pthread_mutex_unlock(&philo->data->print);
 		return (0);
 	}

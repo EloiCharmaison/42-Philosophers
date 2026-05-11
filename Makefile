@@ -4,8 +4,15 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 
 SRC =	src/main.c \
+		src/action.c \
+		src/check_death.c \
+		src/free.c \
+		src/inits.c \
+		src/time.c \
+		src/utils.c \
+		src/routine.c
 
-OBJ = $(SRC.c=.o)
+OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
