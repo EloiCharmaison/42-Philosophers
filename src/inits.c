@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 15:12:21 by eloi              #+#    #+#             */
-/*   Updated: 2026/05/11 15:57:57 by marvin           ###   ########.fr       */
+/*   Updated: 2026/05/12 12:28:57 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	init_data(t_data *data, int size, char **tab)
 	data->dead = 0;
 	data->philos = NULL;
 	data->fork = NULL;
-	if (data->nb_philo <= 0 
+	if (data->nb_philo <= 0
 		|| data->time_to_die <= 0
-		|| data->time_to_eat <= 0 
+		|| data->time_to_eat <= 0
 		|| data->time_to_sleep <= 0)
 		return (0);
 	if (!init_mutexes(data))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:00:18 by echarmai          #+#    #+#             */
-/*   Updated: 2026/05/11 15:21:51 by marvin           ###   ########.fr       */
+/*   Updated: 2026/05/12 12:48:18 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_data
 }	t_data;
 
 int		ft_atoi(const char *nptr);
-int		check_death(t_data * data);
+int		check_death(t_data *data);
 int		init_philos(t_data *data);
 int		init_data(t_data *data, int size, char **tab);
 void	free_all(t_data * data);
@@ -59,5 +59,6 @@ void	eat(t_philo *philo);
 void	sleep_and_think(t_philo *philo);
 void	free_all(t_data * data);
 void	*philo_routine(void *arg);
+int	is_simulation_dead(t_data * data);
 
 #endif

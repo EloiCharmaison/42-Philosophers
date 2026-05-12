@@ -12,7 +12,7 @@
 
 #include "../philo.h"
 
-static int	is_simulation_dead(t_data * data)
+int	is_simulation_dead(t_data * data)
 {
 	int	dead;
 

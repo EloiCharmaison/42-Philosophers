@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eloi <eloi@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:13:27 by eloi              #+#    #+#             */
-/*   Updated: 2026/05/09 16:17:39 by eloi             ###   ########.fr       */
+/*   Updated: 2026/05/12 12:46:38 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void	ft_usleep(long time)
 
 	start = get_time();
 	while ((get_time() - start) < time)
-	usleep(500);
+		usleep(500);
 }
