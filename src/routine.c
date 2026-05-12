@@ -12,7 +12,7 @@
 
 #include "../philo.h"
 
-int	is_simulation_dead(t_data * data)
+int	is_simulation_dead(t_data *data)
 {
 	int	dead;
 
@@ -24,9 +24,11 @@ int	is_simulation_dead(t_data * data)
 
 void	*philo_routine(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	while (!philo->data->ready)
+		usleep(100);
 	if (philo->id % 2 == 0)
 		usleep(1000);
 	while (!is_simulation_dead(philo->data))

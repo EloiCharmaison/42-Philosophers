@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:48:35 by eloi              #+#    #+#             */
-/*   Updated: 2026/05/12 12:55:02 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/05/12 14:04:56 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ static int	is_dead(t_philo *philo)
 	return (1);
 }
 
-void	check_death(t_data *data)
+void	*check_death(void *arg)
 {
-	int	i;
+	t_data	*data;
+	int		i;
 
+	data = (t_data *)arg;
 	while (1)
 	{
 		i = 0;
@@ -44,7 +46,7 @@ void	check_death(t_data *data)
 				return (NULL);
 			i++;
 		}
-		usleep(1000);
+		usleep(500);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:13:03 by echarmai          #+#    #+#             */
-/*   Updated: 2026/05/12 12:54:00 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/05/12 14:31:01 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ static void	join_threads(t_data *data)
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
-	pthread_t monitor;
+	t_data		data;
+	pthread_t	monitor;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -52,15 +52,16 @@ int	main(int argc, char **argv)
 		printf("time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 		return (0);
 	}
+	data.ready = 0;
 	if (!init_data(&data, argc, argv))
 		return (0);
 	if (!init_philos(&data))
 		return (free_all(&data), 0);
 	data.start_time = get_time();
+	data.ready = 1;
 	if (!start_threads(&data))
 		return (free_all(&data), 0);
 	pthread_create(&monitor, NULL, check_death, &data);
-	check_death(&data);
 	join_threads(&data);
 	pthread_join(monitor, NULL);
 	free_all(&data);

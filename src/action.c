@@ -17,11 +17,13 @@ static void	print_action(t_philo *philo, char *msg)
 	pthread_mutex_lock(&philo->data->print);
 	pthread_mutex_lock(&philo->data->dead_lock);
 	if (!philo->data->dead)
+	{
 		printf("%ld %d %s\n",
 			get_time() - philo->data->start_time,
 			philo->id, msg);
-	pthread_mutex_unlock(&philo->data->print);
+	}
 	pthread_mutex_unlock(&philo->data->dead_lock);
+	pthread_mutex_unlock(&philo->data->print);
 }
 
 static void	take_fork(t_philo *philo)
@@ -48,8 +50,7 @@ void	eat(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		print_action(philo, "has taken fork");
-		while (!is_simulation_dead(philo->data))
-			usleep(500);
+		ft_usleep(philo->data->time_to_die);
 		pthread_mutex_unlock(philo->left_fork);
 		return ;
 	}
@@ -57,7 +58,7 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->data->dead_lock);
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->data->dead_lock);
-	print_action(philo, "has taken a fork");
+	print_action(philo, "is eating");
 	ft_usleep(philo->data->time_to_eat);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->left_fork);
