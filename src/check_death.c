@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:48:35 by eloi              #+#    #+#             */
-/*   Updated: 2026/05/12 14:04:56 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/05/19 14:16:34 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int	is_dead(t_philo *philo)
 		printf("%ld %d died\n", get_time() - philo->data->start_time,
 			philo->id);
 		pthread_mutex_unlock(&philo->data->print);
-		return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 void	*check_death(void *arg)
@@ -42,7 +42,7 @@ void	*check_death(void *arg)
 		i = 0;
 		while (i < data->nb_philo)
 		{
-			if (!is_dead(&data->philos[i]))
+			if (is_dead(&data->philos[i]))
 				return (NULL);
 			i++;
 		}

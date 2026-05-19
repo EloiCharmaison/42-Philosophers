@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:00:18 by echarmai          #+#    #+#             */
-/*   Updated: 2026/05/12 14:28:39 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:59:44 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ void	sleep_and_think(t_philo *philo);
 void	free_all(t_data *data);
 void	*philo_routine(void *arg);
 int		is_simulation_dead(t_data *data);
+int		is_simulation_ready(t_data *data);
 
 #endif

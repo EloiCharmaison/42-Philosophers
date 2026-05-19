@@ -28,20 +28,10 @@ static void	print_action(t_philo *philo, char *msg)
 
 static void	take_fork(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(philo->right_fork);
-		print_action(philo, "has taken a fork");
-		pthread_mutex_lock(philo->left_fork);
-		print_action(philo, "has taken a fork");
-	}
-	else
-	{
-		pthread_mutex_lock(philo->left_fork);
-		print_action(philo, "has taken a fork");
-		pthread_mutex_lock(philo->right_fork);
-		print_action(philo, "has taken a fork");
-	}
+	pthread_mutex_lock(philo->right_fork);
+	print_action(philo, "has taken a fork");
+	pthread_mutex_lock(philo->left_fork);
+	print_action(philo, "has taken a fork");
 }
 
 void	eat(t_philo *philo)
