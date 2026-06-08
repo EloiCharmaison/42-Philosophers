@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:00:18 by echarmai          #+#    #+#             */
-/*   Updated: 2026/05/19 13:59:44 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:03:54 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		init_philos(t_data *data);
 int		init_data(t_data *data, int size, char **tab);
 void	free_all(t_data *data);
 long	get_time(void);
-void	ft_usleep(long time);
+void	ft_usleep(long time, t_data *data);
 int		main(int argc, char **argv);
 void	eat(t_philo *philo);
 void	sleep_and_think(t_philo *philo);

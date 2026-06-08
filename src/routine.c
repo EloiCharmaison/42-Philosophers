@@ -40,11 +40,11 @@ void	*philo_routine(void *arg)
 	while (!is_simulation_ready(philo->data))
 		usleep(100);
 	if (philo->id % 2 == 0)
-		usleep(15000);
+		usleep(500);
 	while (!is_simulation_dead(philo->data))
 	{
 		eat(philo);
-		if (!is_simulation_dead(philo->data))
+		if (is_simulation_dead(philo->data))
 			break ;
 		sleep_and_think(philo);
 	}

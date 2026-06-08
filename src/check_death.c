@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:48:35 by eloi              #+#    #+#             */
-/*   Updated: 2026/05/19 14:16:34 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:19:11 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ static int	is_dead(t_philo *philo)
 {
 	long	time_since_meal;
 
+	pthread_mutex_lock(&philo->data->dead_lock);
 	time_since_meal = get_time() - philo->last_meal;
-	if (time_since_meal >= philo->data->time_to_die)
+	pthread_mutex_unlock(&philo->data->dead_lock);
+	if (time_since_meal > philo->data->time_to_die)
 	{
 		pthread_mutex_lock(&philo->data->dead_lock);
 		philo->data->dead = 1;
