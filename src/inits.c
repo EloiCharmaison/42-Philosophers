@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 15:12:21 by eloi              #+#    #+#             */
-/*   Updated: 2026/06/08 13:51:54 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/08/03 13:23:06 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,21 @@ static int	init_mutexes(t_data *data)
 	while (i < data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->fork[i], NULL) != 0)
+		{
+			free_partial_mutexes(data, i);
 			return (0);
+		}
 		i++;
 	}
-	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->dead_lock, NULL);
+	if (pthread_mutex_init(&data->print, NULL) != 0)
+		return (free_partial_mutexes(data, i), 0);
+
+	if (pthread_mutex_init(&data->dead_lock, NULL) != 0)
+	{
+		pthread_mutex_destroy(&data->print);
+		free_partial_mutexes(data, i);
+		return (0);
+	}
 	return (1);
 }
 
@@ -41,12 +51,17 @@ int	init_data(t_data *data, int size, char **tab)
 	if (size == 6)
 		data->must_eat = ft_atoi(tab[5]);
 	data->dead = 0;
+	data->ready = 0;
+	data->all_eaten = 0;
+	data->start_time = 0;
 	data->philos = NULL;
 	data->fork = NULL;
 	if (data->nb_philo <= 0
 		|| data->time_to_die <= 0
 		|| data->time_to_eat <= 0
 		|| data->time_to_sleep <= 0)
+		return (0);
+	if (size == 6 && data->must_eat <= 0)
 		return (0);
 	if (!init_mutexes(data))
 		return (0);

@@ -32,6 +32,19 @@ int	is_simulation_dead(t_data *data)
 	return (dead);
 }
 
+static void precise_sleep(long time, t_data *data)
+{
+	long	start_time;
+
+	start_time = get_time();
+	while (!is_simulation_dead(data))
+	{
+		if (get_time() - start_time >= time)
+			break ;
+		usleep(200);
+	}
+}
+
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
@@ -40,13 +53,18 @@ void	*philo_routine(void *arg)
 	while (!is_simulation_ready(philo->data))
 		usleep(100);
 	if (philo->id % 2 == 0)
-		usleep(500);
+		precise_sleep(philo->data->time_to_eat / 2, philo->data);
 	while (!is_simulation_dead(philo->data))
 	{
-		eat(philo);
+		eat(philo, philo->data);
 		if (is_simulation_dead(philo->data))
 			break ;
-		sleep_and_think(philo);
+		print_action(philo, "is sleeping");
+		precise_sleep(philo->data->time_to_sleep, philo->data);
+		if (is_simulation_dead(philo->data))
+			break ;
+		print_action(philo, "is thinking");
+		precise_sleep(1, philo->data);
 	}
 	return (NULL);
 }

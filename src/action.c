@@ -12,23 +12,27 @@
 
 #include "../philo.h"
 
-static void	print_action(t_philo *philo, char *msg)
+void	print_action(t_philo *philo, char *msg)
 {
-	pthread_mutex_lock(&philo->data->print);
 	pthread_mutex_lock(&philo->data->dead_lock);
 	if (!philo->data->dead)
 	{
+		pthread_mutex_lock(&philo->data->print);
 		printf("%ld %d %s\n",
 			get_time() - philo->data->start_time,
 			philo->id, msg);
+		pthread_mutex_unlock(&philo->data->print);
 	}
 	pthread_mutex_unlock(&philo->data->dead_lock);
-	pthread_mutex_unlock(&philo->data->print);
 }
 
 static void	take_fork(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+//	if (data->nb_philo == 1)
+//		return ;
+//	if (is_simulation_dead(philo->data))
+//		return ;
+	if (philo->left_fork > philo->right_fork)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		print_action(philo, "has taken a fork");
@@ -44,15 +48,21 @@ static void	take_fork(t_philo *philo)
 	}
 }
 
-void	eat(t_philo *philo)
+static void	drop_forks(t_philo *philo)
 {
-	if (is_simulation_dead(philo->data))
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+}
+
+void	eat(t_philo *philo, t_data *data)
+{
+	if (is_simulation_dead(data))
 		return ;
-	if (philo->data->nb_philo == 1)
+	if (data->nb_philo == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		print_action(philo, "has taken fork");
-		ft_usleep(philo->data->time_to_die, philo->data);
+		ft_usleep(data->time_to_die, data);
 		pthread_mutex_unlock(philo->left_fork);
 		return ;
 	}
@@ -62,14 +72,19 @@ void	eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->dead_lock);
 	print_action(philo, "is eating");
 	ft_usleep(philo->data->time_to_eat, philo->data);
+	pthread_mutex_lock(&philo->data->dead_lock);
 	philo->meals_eaten++;
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(&philo->data->dead_lock);
+	drop_forks(philo);
 }
 
 void	sleep_and_think(t_philo *philo)
 {
+	if (is_simulation_dead(philo->data))
+		return ;
 	print_action(philo, "is sleeping");
 	ft_usleep(philo->data->time_to_sleep, philo->data);
+	if (is_simulation_dead(philo->data))
+		return ;
 	print_action(philo, "is thinking");
 }

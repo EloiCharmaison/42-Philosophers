@@ -19,7 +19,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-%.o: %.c includes/philo.h
+%.o: %.c philo.h
 	$(CC) $(CFLAGS) -Iincludes -c $< -o $@
 
 clean:

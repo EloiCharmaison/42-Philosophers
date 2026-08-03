@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:13:03 by echarmai          #+#    #+#             */
-/*   Updated: 2026/06/08 14:15:19 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/08/03 13:10:53 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,18 @@ static int	start_threads(t_data *data)
 			return (0);
 		i++;
 	}
+	pthread_mutex_lock(&data->dead_lock);
+	data->start_time = get_time();
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		data->philos[i].last_meal = data->start_time;
+		i++;
+	}
+	data->ready = 1;
+	pthread_mutex_unlock(&data->dead_lock);
+	if (pthread_create(&data->philos[0].thread, NULL, check_death, data) != 0)
+		return (0);
 	return (1);
 }
 

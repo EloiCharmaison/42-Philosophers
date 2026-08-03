@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:00:18 by echarmai          #+#    #+#             */
-/*   Updated: 2026/06/08 14:03:54 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/08/03 14:49:46 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				ready;
+	int				all_eaten;
 	int				nb_philo;
 	long			time_to_die;
 	long			time_to_eat;
@@ -56,11 +57,13 @@ void	free_all(t_data *data);
 long	get_time(void);
 void	ft_usleep(long time, t_data *data);
 int		main(int argc, char **argv);
-void	eat(t_philo *philo);
+void	eat(t_philo *philo, t_data *data);
 void	sleep_and_think(t_philo *philo);
 void	free_all(t_data *data);
 void	*philo_routine(void *arg);
 int		is_simulation_dead(t_data *data);
 int		is_simulation_ready(t_data *data);
+void	free_partial_mutexes(t_data *data, int count);
+void	print_action(t_philo *philo, char *msg);
 
 #endif
