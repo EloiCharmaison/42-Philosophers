@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:13:27 by eloi              #+#    #+#             */
-/*   Updated: 2026/06/08 14:04:47 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/08/04 10:25:53 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	ft_usleep(long time, t_data *data)
 	long	start;
 
 	start = get_time();
-	while ((get_time() - start) < time)
+	while (!is_simulation_dead(data))
 	{
-		if (is_simulation_dead(data))
+		if (get_time() - start >= time)
 			break ;
-		usleep(500);
+		usleep(200);
 	}
 }

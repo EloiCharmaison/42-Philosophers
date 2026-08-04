@@ -6,11 +6,27 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 15:12:21 by eloi              #+#    #+#             */
-/*   Updated: 2026/08/03 13:23:06 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/08/04 10:20:23 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+void	free_partial_mutexes(t_data *data, int count)
+{
+	int	i;
+
+	if (!data->fork)
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		pthread_mutex_destroy(&data->fork[i]);
+		i++;
+	}
+	free(data->fork);
+	data->fork = NULL;
+}
 
 static int	init_mutexes(t_data *data)
 {
@@ -30,12 +46,12 @@ static int	init_mutexes(t_data *data)
 		i++;
 	}
 	if (pthread_mutex_init(&data->print, NULL) != 0)
-		return (free_partial_mutexes(data, i), 0);
+		return (free_partial_mutexes(data, data->nb_philo), 0);
 
 	if (pthread_mutex_init(&data->dead_lock, NULL) != 0)
 	{
 		pthread_mutex_destroy(&data->print);
-		free_partial_mutexes(data, i);
+		free_partial_mutexes(data, data->nb_philo);
 		return (0);
 	}
 	return (1);
