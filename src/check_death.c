@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:48:35 by eloi              #+#    #+#             */
-/*   Updated: 2026/08/03 15:37:46 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/09/09 22:29:12 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ static int	is_dead(t_philo *philo)
 		return (1);
 	}
 	time_since_meal = get_time() - philo->last_meal;
-	// IMPORTANT: un philosophe meurt uniquement si le temps écoulé est STRICTEMENT
-	// supérieur à time_to_die. Si on utilise ">=", il peut mourir trop tôt au moment
-	// exact du seuil, ce qui explique le décès à 201 ms pour 200 ms.
 	if (time_since_meal > philo->data->time_to_die)
 	{
 		philo->data->dead = 1;
@@ -74,8 +71,6 @@ void	*check_death(void *arg)
 	data = (t_data *)arg;
 	while (!is_simulation_ready(data))
 		usleep(100);
-	// NOTE: this monitor assumes start_threads() sets start_time and ready in the correct order.
-	// If ready is set too early before start_time is ready, death detection and timestamps may be wrong.
 	while (1)
 	{
 		i = 0;

@@ -28,10 +28,6 @@ void	print_action(t_philo *philo, char *msg)
 
 static void	take_fork(t_philo *philo)
 {
-//	if (data->nb_philo == 1)
-//		return ;
-//	if (is_simulation_dead(philo->data))
-//		return ;
 	if (philo->left_fork > philo->right_fork)
 	{
 		pthread_mutex_lock(philo->right_fork);
@@ -67,6 +63,8 @@ void	eat(t_philo *philo, t_data *data)
 		return ;
 	}
 	take_fork(philo);
+	if (is_simulation_dead(data))
+		return (drop_forks(philo));
 	pthread_mutex_lock(&philo->data->dead_lock);
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->data->dead_lock);
@@ -80,6 +78,8 @@ void	eat(t_philo *philo, t_data *data)
 
 void	sleep_and_think(t_philo *philo)
 {
+	long	time_to_think;
+
 	if (is_simulation_dead(philo->data))
 		return ;
 	print_action(philo, "is sleeping");
@@ -87,4 +87,17 @@ void	sleep_and_think(t_philo *philo)
 	if (is_simulation_dead(philo->data))
 		return ;
 	print_action(philo, "is thinking");
+	if (philo->data->nb_philo % 2 != 0)
+	{
+		time_to_think = (philo->data->time_to_eat * 2)
+			- philo->data->time_to_sleep;
+		if (time_to_think < 0)
+			time_to_think = 0;
+		if (philo->data->time_to_die < philo->data->time_to_eat * 3)
+			time_to_think = 0;
+		else
+			time_to_think = time_to_think * 0.42;
+		if (time_to_think > 0)
+			ft_usleep(time_to_think, philo->data);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 15:12:21 by eloi              #+#    #+#             */
-/*   Updated: 2026/08/04 10:20:23 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/09/08 14:11:35 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static int	init_mutexes(t_data *data)
 	}
 	if (pthread_mutex_init(&data->print, NULL) != 0)
 		return (free_partial_mutexes(data, data->nb_philo), 0);
-
 	if (pthread_mutex_init(&data->dead_lock, NULL) != 0)
 	{
 		pthread_mutex_destroy(&data->print);

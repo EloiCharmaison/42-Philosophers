@@ -43,16 +43,17 @@ void	*philo_routine(void *arg)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		print_action(philo, "has taken a fork");
+		ft_usleep(philo->data->time_to_die, philo->data);
 		pthread_mutex_unlock(philo->left_fork);
 		return (NULL);
 	}
 	if (philo->id % 2 == 0)
-		ft_usleep(philo->data->time_to_eat / 10, philo->data);
+		ft_usleep(philo->data->time_to_eat / 2, philo->data);
 	while (!is_simulation_dead(philo->data))
 	{
 		eat(philo, philo->data);
 		if (is_simulation_dead(philo->data))
-			break;
+			break ;
 		sleep_and_think(philo);
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:00:18 by echarmai          #+#    #+#             */
-/*   Updated: 2026/08/03 14:49:46 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/09/08 11:33:22 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_data
 	int				must_eat;
 	int				dead;
 	long			start_time;
+	long			time_to_think;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
 	pthread_mutex_t	dead_lock;

@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:13:03 by echarmai          #+#    #+#             */
-/*   Updated: 2026/08/04 10:14:22 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/09/08 12:25:06 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	join_threads(t_data *data)
 int	main(int argc, char **argv)
 {
 	t_data		data;
-	//pthread_t	monitor;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -62,9 +61,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	data.ready = 0;
-	// NOTE: ready must stay 0 until start_threads sets it after start_time is initialized.
-	// If ready is set too early, philosopher threads may begin before the start timestamp
-	// is valid, causing incorrect action timestamps and race conditions.
 	if (!init_data(&data, argc, argv))
 		return (1);
 	if (!init_philos(&data))
@@ -72,9 +68,7 @@ int	main(int argc, char **argv)
 	if (!start_threads(&data))
 		return (free_all(&data), 1);
 	check_death(&data);
-	//pthread_create(&monitor, NULL, check_death, &data);
 	join_threads(&data);
-	//pthread_join(monitor, NULL);
 	free_all(&data);
 	return (0);
 }

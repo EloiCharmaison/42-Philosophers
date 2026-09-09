@@ -6,13 +6,13 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:19:21 by eloi              #+#    #+#             */
-/*   Updated: 2026/08/04 10:26:36 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/09/08 12:52:05 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	free_all(t_data * data)
+void	free_all(t_data *data)
 {
 	int	i;
 
