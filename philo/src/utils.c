@@ -6,35 +6,43 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 15:34:49 by eloi              #+#    #+#             */
-/*   Updated: 2026/09/08 14:11:42 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/09/10 18:02:30 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int	ft_atoi(const char *nptr)
+static int	is_valid_number(const char *str)
 {
 	int	i;
-	int	sign;
-	int	res;
 
-	sign = 1;
+	if (!str || *str == '\0')
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	ft_atoi(const char *nptr)
+{
+	long	res;
+	int		i;
+
+	if (!nptr || !is_valid_number(nptr))
+		return (-1);
 	res = 0;
 	i = 0;
-	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
-		i++;
-	if (nptr[i] == '+' && nptr[i + 1] != '-')
-		i++;
-	if (nptr[i] == '-' && sign == 1)
+	while (nptr[i])
 	{
-		sign = -1;
+		res = res * 10 + (nptr[i] - '0');
+		if (res > 2147483647)
+			return (-1);
 		i++;
 	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-	{
-		res = res * 10;
-		res = res + (nptr[i] - 48);
-		i++;
-	}
-	return (res * sign);
+	return ((int)res);
 }

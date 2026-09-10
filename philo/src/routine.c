@@ -39,6 +39,8 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (!is_simulation_ready(philo->data))
 		usleep(100);
+	if (is_simulation_dead(philo->data))
+		return (NULL);
 	if (philo->data->nb_philo == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);

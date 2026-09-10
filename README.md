@@ -59,7 +59,7 @@ Run the program with the folowing arguments:
 
 ---
 
-## Ressources
+## Resources
 
 ### Documents and Videos
 Video playlist on multithreading.
@@ -68,4 +68,4 @@ Video playlist on multithreading.
 ### AI usage
 Debugging some parts of the code.
 
-Help to understand a bit more precisely the multiple threads.
+Help to understand a bit more precisely the multithreading and the project overall.

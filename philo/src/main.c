@@ -6,11 +6,31 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 12:13:03 by echarmai          #+#    #+#             */
-/*   Updated: 2026/09/08 12:25:06 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/09/10 18:10:11 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+static void	stop_threads(t_data *data)
+{
+	pthread_mutex_lock(&data->dead_lock);
+	data->dead = 1;
+	data->ready = 1;
+	pthread_mutex_unlock(&data->dead_lock);
+}
+
+static void	join_threads(t_data *data, int count)
+{
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		pthread_join(data->philos[i].thread, NULL);
+		i++;
+	}
+}
 
 static int	start_threads(t_data *data)
 {
@@ -21,7 +41,11 @@ static int	start_threads(t_data *data)
 	{
 		if (pthread_create(&data->philos[i].thread, NULL,
 				philo_routine, &data->philos[i]) != 0)
+		{
+			while (i > 0)
+				pthread_join(data->philos[--i].thread, NULL);
 			return (0);
+		}
 		i++;
 	}
 	pthread_mutex_lock(&data->dead_lock);
@@ -29,24 +53,11 @@ static int	start_threads(t_data *data)
 	i = 0;
 	while (i < data->nb_philo)
 	{
-		data->philos[i].last_meal = data->start_time;
-		i++;
+		data->philos[i++].last_meal = data->start_time;
 	}
 	data->ready = 1;
 	pthread_mutex_unlock(&data->dead_lock);
 	return (1);
-}
-
-static void	join_threads(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_philo)
-	{
-		pthread_join(data->philos[i].thread, NULL);
-		i++;
-	}
 }
 
 int	main(int argc, char **argv)
@@ -68,7 +79,9 @@ int	main(int argc, char **argv)
 	if (!start_threads(&data))
 		return (free_all(&data), 1);
 	check_death(&data);
-	join_threads(&data);
+	join_threads(&data, data.nb_philo);
 	free_all(&data);
 	return (0);
 }
+
+// GERER LE STOP_THREADS !!! (savoir ou le mettre)
