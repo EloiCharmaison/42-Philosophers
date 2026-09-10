@@ -6,7 +6,7 @@
 /*   By: echarmai <echarmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:48:35 by eloi              #+#    #+#             */
-/*   Updated: 2026/09/09 22:29:12 by echarmai         ###   ########.fr       */
+/*   Updated: 2026/09/10 14:45:48 by echarmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	is_dead(t_philo *philo)
 		return (1);
 	}
 	time_since_meal = get_time() - philo->last_meal;
-	if (time_since_meal > philo->data->time_to_die)
+	if (time_since_meal >= philo->data->time_to_die)
 	{
 		philo->data->dead = 1;
 		pthread_mutex_unlock(&philo->data->dead_lock);

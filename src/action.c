@@ -26,23 +26,50 @@ void	print_action(t_philo *philo, char *msg)
 	pthread_mutex_unlock(&philo->data->dead_lock);
 }
 
-static void	take_fork(t_philo *philo)
+static int	take_fork(t_philo *philo)
 {
-	if (philo->left_fork > philo->right_fork)
+	pthread_mutex_t	*first;
+	pthread_mutex_t	*second;
+
+	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(philo->right_fork);
-		print_action(philo, "has taken a fork");
-		pthread_mutex_lock(philo->left_fork);
-		print_action(philo, "has taken a fork");
+		first = philo->right_fork;
+		second = philo->left_fork;
 	}
 	else
 	{
-		pthread_mutex_lock(philo->left_fork);
-		print_action(philo, "has taken a fork");
-		pthread_mutex_lock(philo->right_fork);
-		print_action(philo, "has taken a fork");
+		first = philo->left_fork;
+		second = philo->right_fork;
 	}
+	pthread_mutex_lock(first);
+	print_action(philo, "has taken a fork");
+	if (is_simulation_dead(philo->data))
+	{
+		pthread_mutex_unlock(first);
+		return (0);
+	}
+	pthread_mutex_lock(second);
+	print_action(philo, "has taken a fork");
+	return (1);
 }
+
+// static void	take_fork(t_philo *philo)
+// {
+// 	if (philo->left_fork > philo->right_fork)
+// 	{
+// 		pthread_mutex_lock(philo->right_fork);
+// 		print_action(philo, "has taken a fork");
+// 		pthread_mutex_lock(philo->left_fork);
+// 		print_action(philo, "has taken a fork");
+// 	}
+// 	else
+// 	{
+// 		pthread_mutex_lock(philo->left_fork);
+// 		print_action(philo, "has taken a fork");
+// 		pthread_mutex_lock(philo->right_fork);
+// 		print_action(philo, "has taken a fork");
+// 	}
+// }
 
 static void	drop_forks(t_philo *philo)
 {
@@ -57,12 +84,13 @@ void	eat(t_philo *philo, t_data *data)
 	if (data->nb_philo == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		print_action(philo, "has taken fork");
+		print_action(philo, "has taken a fork");
 		ft_usleep(data->time_to_die, data);
 		pthread_mutex_unlock(philo->left_fork);
 		return ;
 	}
-	take_fork(philo);
+	if (!take_fork(philo))
+		return ;
 	if (is_simulation_dead(data))
 		return (drop_forks(philo));
 	pthread_mutex_lock(&philo->data->dead_lock);
